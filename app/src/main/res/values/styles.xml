@@ -1,0 +1,14 @@
+<resources>
+
+    <!-- ستايل مخصص لحقل الإدخال -->
+    <style name="CustomEditText">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/edittext_background</item>
+        <item name="android:padding">12dp</item>
+        <item name="android:textColor">@color/inputText</item>
+        <item name="android:textColorHint">@color/hintColor</item>
+        <item name="android:layout_marginBottom">16dp</item>
+    </style>
+
+</resources>

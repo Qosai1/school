@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_margin="12dp"
+    app:cardElevation="8dp"
+    android:background="@android:color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <!-- Assignment Info -->
+        <TextView
+            android:id="@+id/assignmentSubject"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Subject: Mathematics"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="#212121"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:id="@+id/assignmentTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Title: Chapter 1 Homework"
+            android:textSize="16sp"
+            android:textColor="#424242"
+            android:layout_marginBottom="6dp" />
+
+        <TextView
+            android:id="@+id/assignmentDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Description: Solve exercises 1 to 10"
+            android:textSize="14sp"
+            android:textColor="#616161"
+            android:layout_marginBottom="6dp" />
+
+        <TextView
+            android:id="@+id/assignmentDueDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Due Date: 2024-12-31"
+            android:textSize="14sp"
+            android:textColor="#D32F2F"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Attachment Section -->
+        <LinearLayout
+            android:id="@+id/assignmentAttachmentSection"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="12dp"
+            android:background="#F5F5F5"
+            android:layout_marginBottom="16dp"
+            android:visibility="gone"
+            android:clipToPadding="false"
+            android:elevation="2dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Assignment Attachment:"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="#212121"
+                android:layout_marginBottom="8dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:id="@+id/assignmentFileIcon"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@android:drawable/ic_menu_save"
+                    android:layout_marginEnd="8dp"
+                    android:contentDescription="File Icon" />
+
+                <TextView
+                    android:id="@+id/assignmentAttachmentName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Filename.pdf"
+                    android:textSize="14sp"
+                    android:textColor="#424242" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="8dp"
+                android:weightSum="2">
+
+                <Button
+                    android:id="@+id/btnViewAttachment"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="View"
+                    android:textSize="14sp"
+                    android:layout_marginEnd="4dp"
+                    style="@style/Widget.AppCompat.Button.Small" />
+
+                <Button
+                    android:id="@+id/btnDownloadAttachment"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Download"
+                    android:textSize="14sp"
+                    android:layout_marginStart="4dp"
+                    style="@style/Widget.AppCompat.Button.Small" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Divider -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#BDBDBD"
+            android:layout_marginVertical="12dp" />
+
+        <!-- Submission Section -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Submit Your Assignment:"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="#212121"
+            android:layout_marginBottom="12dp" />
+
+        <!-- File Selection Section -->
+        <LinearLayout
+            android:id="@+id/fileSelectionLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="12dp"
+            android:background="#E0E0E0"
+            android:layout_marginBottom="16dp"
+            android:visibility="gone"
+            android:elevation="1dp"
+            android:clipToPadding="false">
+
+            <TextView
+                android:id="@+id/selectedFileName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Selected file: document.pdf"
+                android:textSize="14sp"
+                android:textColor="#424242"
+                android:layout_marginBottom="8dp" />
+
+            <Button
+                android:id="@+id/btnCancelFile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cancel"
+                android:textSize="14sp"
+                android:layout_gravity="end"
+                style="@style/Widget.AppCompat.Button.Small" />
+
+        </LinearLayout>
+
+        <!-- Submit Button -->
+        <Button
+            android:id="@+id/btnSubmitAssignment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Choose File"
+            android:textSize="16sp"
+            android:textColor="@android:color/white"
+            android:backgroundTint="@color/black"
+            android:padding="12dp"
+            android:textAllCaps="false"
+            tools:ignore="HardcodedText" />
+             />
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

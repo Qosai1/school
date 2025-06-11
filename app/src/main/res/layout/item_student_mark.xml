@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="12dp"
+    android:layout_marginBottom="8dp"
+    android:background="@drawable/edittext_background"
+    android:gravity="center_vertical">
+
+    <TextView
+        android:id="@+id/studentNameText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/label_student_name"
+        android:textSize="16sp"
+        android:textColor="#333333"
+        android:fontFamily="sans-serif-medium"
+        android:layout_marginEnd="16dp" />
+
+    <EditText
+        android:id="@+id/markInput"
+        android:layout_width="80dp"
+        android:layout_height="40dp"
+        android:hint="@string/hint_mark"
+        android:inputType="numberDecimal"
+        android:gravity="center"
+        android:textSize="14sp"
+        android:background="@drawable/edittext_background" />
+</LinearLayout>

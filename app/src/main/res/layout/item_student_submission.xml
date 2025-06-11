@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="12dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="8dp"
+    android:backgroundTint="#FFFFFF">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <!-- معلومات الطالب -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_marginEnd="16dp"
+                android:src="@android:drawable/ic_menu_myplaces"
+                android:contentDescription="Student Icon"
+                app:tint="#673AB7" />
+
+            <TextView
+                android:id="@+id/studentName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Student Name"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="#212121"
+                android:fontFamily="sans-serif-medium" />
+
+        </LinearLayout>
+
+        <!-- تاريخ التسليم -->
+        <TextView
+            android:id="@+id/submittedAt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Submitted at: 2024-12-01 14:30"
+            android:textSize="14sp"
+            android:textColor="#757575"
+            android:layout_marginTop="6dp"
+            android:fontFamily="sans-serif" />
+
+        <!-- قسم المرفق -->
+        <LinearLayout
+            android:id="@+id/attachmentSection"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="16dp"
+            android:padding="16dp"
+            android:background="#F3E5F5"
+            android:backgroundTintMode="src_in"
+            android:clipToOutline="true"
+            android:elevation="4dp"
+            android:visibility="visible"
+            android:backgroundTint="#EDE7F6"
+            >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Attachment:"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="#4527A0"
+                android:fontFamily="sans-serif-medium" />
+
+            <!-- معلومات الملف -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginTop="12dp">
+
+                <ImageView
+                    android:id="@+id/fileIcon"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginEnd="16dp"
+                    android:src="@android:drawable/ic_menu_save"
+                    android:contentDescription="File Icon"
+                    app:tint="#311B92" />
+
+                <TextView
+                    android:id="@+id/attachmentName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="file_name.pdf"
+                    android:textSize="16sp"
+                    android:textColor="#212121"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:fontFamily="sans-serif" />
+
+            </LinearLayout>
+
+            <!-- أزرار التحكم -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="18dp"
+                android:gravity="end">
+
+                <Button
+                    android:id="@+id/btnView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="View"
+                    android:textAllCaps="false"
+                    android:textColor="#673AB7"
+                    android:backgroundTint="@android:color/transparent"
+                    android:paddingLeft="24dp"
+                    android:paddingRight="24dp"
+                    android:paddingTop="12dp"
+                    android:paddingBottom="12dp"
+                    android:fontFamily="sans-serif-medium"
+                    android:background="?android:attr/selectableItemBackgroundBorderless"
+                    />
+
+                <Button
+                    android:id="@+id/btnDownload"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Download"
+                    android:textAllCaps="false"
+                    android:textColor="#673AB7"
+                    android:backgroundTint="@android:color/transparent"
+                    android:paddingLeft="24dp"
+                    android:paddingRight="24dp"
+                    android:paddingTop="12dp"
+                    android:paddingBottom="12dp"
+                    android:fontFamily="sans-serif-medium"
+                    android:background="?android:attr/selectableItemBackgroundBorderless" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- رسالة عدم وجود مرفق -->
+        <TextView
+            android:id="@+id/noAttachment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="No attachment submitted"
+            android:textSize="14sp"
+            android:textColor="#9E9E9E"
+            android:textStyle="italic"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:visibility="gone"
+            android:fontFamily="sans-serif" />
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

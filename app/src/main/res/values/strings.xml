@@ -1,0 +1,43 @@
+<resources>
+    <string name="title_add_student">Add Student</string>
+    <string name="hint_name">Full Name</string>
+    <string name="hint_email">Email Address</string>
+    <string name="hint_phone">Phone Number</string>
+    <string name="hint_birth_date">Birth Date</string>
+    <string name="hint_address">Address</string>
+    <string name="hint_class_id">Class ID</string>
+    <string name="btn_add_student">Add Student</string>
+    <string name="label_student_name">Student Name</string>
+    <string name="hint_mark">Mark</string>
+    <string name="label_subject_name">Subject Name</string>
+    <string name="label_exam_name">Exam Name</string>
+    <string name="welcome_teacher">Welcome, Teacher!</string>
+    <string name="add_marks">Add Marks</string>
+    <string name="add_assignment">Add New Assignment</string>
+    <string name="welcome_student">Welcome, Student!</string>
+    <string name="show_schedule">Show My Schedule</string>
+    <string name="show_marks">Show My Marks</string>
+    <string name="show_assignments">Show My Assignments</string>
+    <string name="welcome_registrar">Welcome, Registrar!</string>
+    <string name="add_student">Add New Student</string>
+    <string name="student_schedule">Student Schedule</string>
+    <string name="class_schedule">Class Schedule</string>
+    <string name="add_subject">Add Subject</string>
+    <string name="my_marks">My Marks</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="exam_name">Exam Name</string>
+    <string name="enter_exam_name">Enter exam name</string>
+    <string name="select_class">Select Class</string>
+    <string name="students_and_marks">Students and Marks</string>
+    <string name="submit_marks">Submit Marks</string>
+    <string name="assignment_title">Title</string>
+    <string name="assignment_description">Description</string>
+    <string name="due_date_hint">Due Date (YYYY-MM-DD)</string>
+    <string name="select_file">Select File (Optional)</string>
+    <string name="remove">Remove</string>
+    <string name="no_file_selected">No file selected</string>
+
+
+</resources>
