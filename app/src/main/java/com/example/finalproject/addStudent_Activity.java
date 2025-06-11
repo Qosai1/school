@@ -98,7 +98,7 @@ public class addStudent_Activity extends AppCompatActivity {
 
         etBirthDate.setFocusable(false);
         etBirthDate.setClickable(true);
-        etBirthDate.setHint("اختر تاريخ الميلاد");
+        etBirthDate.setHint("Date of birth");
 
         etBirthDate.setOnClickListener(v -> showDatePicker());
     }
@@ -140,66 +140,66 @@ public class addStudent_Activity extends AppCompatActivity {
 
         String name = etName.getText().toString().trim();
         if (name.isEmpty()) {
-            etName.setError("الرجاء إدخال الاسم");
+            etName.setError("Please fill the name field");
             isValid = false;
         } else if (!name.matches("^[a-zA-Zأ-ي\\s]+$")) {
-            etName.setError("الاسم يجب أن يحتوي على أحرف فقط");
+            etName.setError("Name must contain characters only");
             isValid = false;
         }
 
 
         String email = etEmail.getText().toString().trim();
         if (email.isEmpty()) {
-            etEmail.setError("الرجاء إدخال البريد الإلكتروني");
+            etEmail.setError("Please fill the email field ");
             isValid = false;
         } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            etEmail.setError("البريد الإلكتروني غير صحيح");
+            etEmail.setError("The email is incorrect");
             isValid = false;
         }
 
 
         String phone = etPhone.getText().toString().trim();
         if (phone.isEmpty()) {
-            etPhone.setError("الرجاء إدخال رقم الهاتف");
+            etPhone.setError("Please fill the phone number ");
             isValid = false;
         } else if (phone.length() != 10) {
-            etPhone.setError("رقم الهاتف يجب أن يكون 10 خانات");
+            etPhone.setError("Phone number must contain only 10 digits");
             isValid = false;
         } else if (!phone.matches("^[0-9]+$")) {
-            etPhone.setError("رقم الهاتف يجب أن يحتوي على أرقام فقط");
+            etPhone.setError("Phone number must contain characters only");
             isValid = false;
         }
 
         if (selectedDate.isEmpty()) {
-            etBirthDate.setError("الرجاء اختيار تاريخ الميلاد");
+            etBirthDate.setError("Please fill the date of birth field");
             isValid = false;
         }
 
 
         if (spinnerGender.getSelectedItemPosition() == 0) {
-            ((TextView) spinnerGender.getSelectedView()).setError("الرجاء اختيار الجنس");
+            ((TextView) spinnerGender.getSelectedView()).setError("Please select the gender");
             isValid = false;
         }
 
 
         if (etAddress.getText().toString().trim().isEmpty()) {
-            etAddress.setError("الرجاء إدخال العنوان");
+            etAddress.setError("Please fill the address field");
             isValid = false;
         }
 
         String classIdStr = classid.getText().toString().trim();
         if (classIdStr.isEmpty()) {
-            classid.setError("الرجاء إدخال رقم الصف");
+            classid.setError("Please fill the class id field");
             isValid = false;
         } else {
             try {
                 int classIdInt = Integer.parseInt(classIdStr);
                 if (classIdInt < 1 || classIdInt > 12) {
-                    classid.setError("رقم الصف يجب أن يكون بين 1 و 12");
+                    classid.setError("class ID must be between 1 and 12");
                     isValid = false;
                 }
             } catch (NumberFormatException e) {
-                classid.setError("الرجاء إدخال رقم صحيح للصف");
+                classid.setError("Please fill the class id correctly");
                 isValid = false;
             }
         }
@@ -234,22 +234,22 @@ public class addStudent_Activity extends AppCompatActivity {
                             }
                         } catch (JSONException e) {
                             Toast.makeText(addStudent_Activity.this,
-                                    "خطأ في تحليل الاستجابة: " + e.getMessage(),
+                                    "Fail: " + e.getMessage(),
                                     Toast.LENGTH_LONG).show();
                         }
                     },
                     error -> {
-                        String errorMsg = "خطأ في الشبكة";
+                        String errorMsg = "Network error";
                         if (error.networkResponse != null) {
                             try {
                                 String responseBody = new String(error.networkResponse.data, "utf-8");
                                 JSONObject errorResponse = new JSONObject(responseBody);
                                 errorMsg = errorResponse.getString("error");
                                 if (errorResponse.has("details")) {
-                                    errorMsg += "\nالتفاصيل: " + errorResponse.getString("details");
+                                    errorMsg += "\nDetails: " + errorResponse.getString("details");
                                 }
                             } catch (Exception e) {
-                                errorMsg = "خطأ: " + error.toString();
+                                errorMsg = "error " + error.toString();
                             }
                         }
                         Toast.makeText(addStudent_Activity.this, errorMsg, Toast.LENGTH_LONG).show();
@@ -277,26 +277,26 @@ public class addStudent_Activity extends AppCompatActivity {
             String password = response.getString("password");
 
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("تم إنشاء الحساب بنجاح!");
-            builder.setMessage("تم إضافة الطالب: " + studentName + "\n\n" +
-                    "معلومات تسجيل الدخول:\n" +
-                    "اسم المستخدم: " + username + "\n" +
-                    "كلمة المرور: " + password + "\n\n" +
-                    "يرجى حفظ هذه المعلومات وإعطاؤها للطالب.");
+            builder.setTitle("User account created successfully!");
+            builder.setMessage("Student added successfully: " + studentName + "\n\n" +
+                    "Log in info.:\n" +
+                    "Username: " + username + "\n" +
+                    "password: " + password + "\n\n"
+                    );
 
-            builder.setPositiveButton("حسناً", (dialog, which) -> dialog.dismiss());
-            builder.setNegativeButton("نسخ اسم المستخدم", (dialog, which) -> {
+            builder.setPositiveButton("Done", (dialog, which) -> dialog.dismiss());
+            builder.setNegativeButton("Copy username", (dialog, which) -> {
                 android.content.ClipboardManager clipboard =
                         (android.content.ClipboardManager) getSystemService(android.content.Context.CLIPBOARD_SERVICE);
                 android.content.ClipData clip = android.content.ClipData.newPlainText("Username", username);
                 clipboard.setPrimaryClip(clip);
-                Toast.makeText(this, "تم نسخ اسم المستخدم", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "username copied", Toast.LENGTH_SHORT).show();
             });
 
             builder.show();
 
         } catch (JSONException e) {
-            Toast.makeText(this, "تم إضافة الطالب بنجاح!", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Student added successfully!", Toast.LENGTH_LONG).show();
         }
     }
 

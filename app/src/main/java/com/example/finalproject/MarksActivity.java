@@ -33,7 +33,6 @@ public class MarksActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_marks);
 
-        // إعداد RecyclerView
         marksRecyclerView = findViewById(R.id.marksRecyclerView);
         marksRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -41,7 +40,6 @@ public class MarksActivity extends AppCompatActivity {
         marksAdapter = new MarksAdapter(marksList);
         marksRecyclerView.setAdapter(marksAdapter);
 
-        // جلب العلامات
         loadStudentMarks();
     }
 

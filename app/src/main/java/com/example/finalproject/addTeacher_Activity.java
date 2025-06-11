@@ -22,7 +22,6 @@ public class addTeacher_Activity extends AppCompatActivity {
     String subjectsUrl = "http://10.0.2.2/get_subjects.php";
     private String selectedDate = "";
 
-    // قوائم لحفظ بيانات المواد
     private List<String> subjectNames = new ArrayList<>();
     private List<Integer> subjectIds = new ArrayList<>();
     private ArrayAdapter<String> subjectAdapter;
@@ -32,7 +31,6 @@ public class addTeacher_Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_teacher_activity);
 
-        // ربط الحقول
         etName = findViewById(R.id.etName);
         etEmail = findViewById(R.id.etEmail);
         etPhone = findViewById(R.id.etPhone);
@@ -58,27 +56,21 @@ public class addTeacher_Activity extends AppCompatActivity {
     }
 
     private void setupInputValidation() {
-        // اسم المعلم - نص فقط
         etName.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PERSON_NAME);
 
-        // رقم الهاتف - أرقام فقط وحد أقصى 10 خانات
         etPhone.setInputType(InputType.TYPE_CLASS_PHONE);
         etPhone.setFilters(new InputFilter[]{new InputFilter.LengthFilter(10)});
 
-        // البريد الإلكتروني
         etEmail.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
 
-        // القسم - نص
         etDepartment.setInputType(InputType.TYPE_CLASS_TEXT);
 
-        // السيرة الذاتية - نص متعدد الأسطر
         etBio.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
         etBio.setMaxLines(4);
     }
 
     private void setupGenderSpinner() {
-        // إعداد قائمة الجنس
-        String[] genderOptions = {"اختر الجنس", "ذكر", "أنثى"};
+        String[] genderOptions = {"Select Gender", "Male", "Female"};
         ArrayAdapter<String> genderAdapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, genderOptions) {
             @Override
@@ -92,7 +84,6 @@ public class addTeacher_Activity extends AppCompatActivity {
                 View view = super.getDropDownView(position, convertView, parent);
                 TextView tv = (TextView) view;
                 if (position == 0) {
-                    // تغيير لون النص التوضيحي
                     tv.setTextColor(android.graphics.Color.GRAY);
                 } else {
                     tv.setTextColor(android.graphics.Color.BLACK);
@@ -107,17 +98,15 @@ public class addTeacher_Activity extends AppCompatActivity {
     }
 
     private void setupSubjectSpinner() {
-        // إعداد قائمة المواد الأولية
         subjectNames.clear();
         subjectIds.clear();
-        subjectNames.add("اختر المادة");
+        subjectNames.add("Choose subject");
         subjectIds.add(0);
 
         subjectAdapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, subjectNames) {
             @Override
             public boolean isEnabled(int position) {
-                // تعطيل الخيار الأول (النص التوضيحي)
                 return position != 0;
             }
 
@@ -126,7 +115,6 @@ public class addTeacher_Activity extends AppCompatActivity {
                 View view = super.getDropDownView(position, convertView, parent);
                 TextView tv = (TextView) view;
                 if (position == 0) {
-                    // تغيير لون النص التوضيحي
                     tv.setTextColor(android.graphics.Color.GRAY);
                 } else {
                     tv.setTextColor(android.graphics.Color.BLACK);
@@ -147,13 +135,11 @@ public class addTeacher_Activity extends AppCompatActivity {
                 null,
                 response -> {
                     try {
-                        // مسح القائمة القديمة ما عدا العنصر الأول
                         subjectNames.clear();
                         subjectIds.clear();
-                        subjectNames.add("اختر المادة");
+                        subjectNames.add("Choose subject");
                         subjectIds.add(0);
 
-                        // إضافة المواد من قاعدة البيانات
                         for (int i = 0; i < response.length(); i++) {
                             JSONObject subject = response.getJSONObject(i);
                             int subjectId = subject.getInt("subject_id");
@@ -163,7 +149,6 @@ public class addTeacher_Activity extends AppCompatActivity {
                             subjectNames.add(subjectName);
                         }
 
-                        // تحديث الـ Adapter
                         subjectAdapter.notifyDataSetChanged();
 
                     } catch (JSONException e) {
@@ -180,7 +165,7 @@ public class addTeacher_Activity extends AppCompatActivity {
                             JSONObject errorResponse = new JSONObject(responseBody);
                             errorMsg = errorResponse.getString("error");
                         } catch (Exception e) {
-                            errorMsg = "خطأ في الاتصال بالخادم";
+                            errorMsg = "خطأ في الاتصال بالسيرفر";
                         }
                     }
                     Toast.makeText(addTeacher_Activity.this, errorMsg, Toast.LENGTH_LONG).show();
@@ -192,10 +177,9 @@ public class addTeacher_Activity extends AppCompatActivity {
     }
 
     private void setupDatePicker() {
-        // جعل حقل التاريخ غير قابل للكتابة المباشرة
         etBirthDate.setFocusable(false);
         etBirthDate.setClickable(true);
-        etBirthDate.setHint("اختر تاريخ الميلاد");
+        etBirthDate.setHint("date of birth");
 
         etBirthDate.setOnClickListener(v -> showDatePicker());
     }
@@ -209,11 +193,9 @@ public class addTeacher_Activity extends AppCompatActivity {
         DatePickerDialog datePickerDialog = new DatePickerDialog(
                 this,
                 (view, selectedYear, selectedMonth, selectedDay) -> {
-                    // حفظ التاريخ بصيغة قاعدة البيانات (YYYY-MM-DD)
                     selectedDate = String.format(Locale.getDefault(), "%04d-%02d-%02d",
                             selectedYear, selectedMonth + 1, selectedDay);
 
-                    // عرض التاريخ للمستخدم بصيغة مقروءة (DD/MM/YYYY)
                     String displayDate = String.format(Locale.getDefault(), "%02d/%02d/%04d",
                             selectedDay, selectedMonth + 1, selectedYear);
                     etBirthDate.setText(displayDate);
@@ -221,10 +203,8 @@ public class addTeacher_Activity extends AppCompatActivity {
                 year, month, day
         );
 
-        // تحديد الحد الأقصى للتاريخ (اليوم الحالي)
         datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
 
-        // تحديد الحد الأدنى للتاريخ (100 سنة في الماضي)
         Calendar minDate = Calendar.getInstance();
         minDate.add(Calendar.YEAR, -100);
         datePickerDialog.getDatePicker().setMinDate(minDate.getTimeInMillis());
@@ -235,66 +215,58 @@ public class addTeacher_Activity extends AppCompatActivity {
     private boolean validateFields() {
         boolean isValid = true;
 
-        // التحقق من الاسم
         String name = etName.getText().toString().trim();
         if (name.isEmpty()) {
-            etName.setError("الرجاء إدخال اسم المعلم");
+            etName.setError("Please fill the name field");
             isValid = false;
         } else if (!name.matches("^[a-zA-Zأ-ي\\s]+$")) {
-            etName.setError("الاسم يجب أن يحتوي على أحرف فقط");
+            etName.setError("Name must contain only characters ");
             isValid = false;
         }
 
-        // التحقق من البريد الإلكتروني
         String email = etEmail.getText().toString().trim();
         if (email.isEmpty()) {
-            etEmail.setError("الرجاء إدخال البريد الإلكتروني");
+            etEmail.setError("Please fill the email field");
             isValid = false;
         } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            etEmail.setError("البريد الإلكتروني غير صحيح");
+            etEmail.setError("the email is incorrect");
             isValid = false;
         }
 
-        // التحقق من رقم الهاتف
         String phone = etPhone.getText().toString().trim();
         if (phone.isEmpty()) {
-            etPhone.setError("الرجاء إدخال رقم الهاتف");
+            etPhone.setError("Please fill the phone number field");
             isValid = false;
         } else if (phone.length() != 10) {
-            etPhone.setError("رقم الهاتف يجب أن يكون 10 خانات");
+            etPhone.setError("phone number must be only 10 digits");
             isValid = false;
         } else if (!phone.matches("^[0-9]+$")) {
-            etPhone.setError("رقم الهاتف يجب أن يحتوي على أرقام فقط");
+            etPhone.setError("phone number must contain only characters");
             isValid = false;
         }
 
-        // التحقق من تاريخ الميلاد
         if (selectedDate.isEmpty()) {
-            etBirthDate.setError("الرجاء اختيار تاريخ الميلاد");
+            etBirthDate.setError("Please fill the date of birth field");
             isValid = false;
         }
 
-        // التحقق من الجنس
         if (spinnerGender.getSelectedItemPosition() == 0) {
-            ((TextView) spinnerGender.getSelectedView()).setError("الرجاء اختيار الجنس");
+            ((TextView) spinnerGender.getSelectedView()).setError("Please select the Gender");
             isValid = false;
         }
 
-        // التحقق من العنوان
         if (etAddress.getText().toString().trim().isEmpty()) {
-            etAddress.setError("الرجاء إدخال العنوان");
+            etAddress.setError("Please fill the address field");
             isValid = false;
         }
 
-        // التحقق من القسم
         if (etDepartment.getText().toString().trim().isEmpty()) {
-            etDepartment.setError("الرجاء إدخال القسم");
+            etDepartment.setError("Please fill the department field");
             isValid = false;
         }
 
-        // التحقق من المادة
         if (spinnerSubject.getSelectedItemPosition() == 0) {
-            ((TextView) spinnerSubject.getSelectedView()).setError("الرجاء اختيار المادة");
+            ((TextView) spinnerSubject.getSelectedView()).setError("Please fill the subject field");
             isValid = false;
         }
 
@@ -311,7 +283,7 @@ public class addTeacher_Activity extends AppCompatActivity {
 
 
             String genderText = spinnerGender.getSelectedItem().toString();
-            String gender = genderText.equals("ذكر") ? "male" : "female";
+            String gender = genderText.equals("male") ? "male" : "female";
             jsonBody.put("gender", gender);
 
             jsonBody.put("address", etAddress.getText().toString().trim());
@@ -382,15 +354,14 @@ public class addTeacher_Activity extends AppCompatActivity {
             String password = response.getString("password");
 
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("تم إنشاء الحساب بنجاح!");
-            builder.setMessage("تم إضافة المعلم: " + teacherName + "\n\n" +
-                    "معلومات تسجيل الدخول:\n" +
-                    "اسم المستخدم: " + username + "\n" +
-                    "كلمة المرور: " + password + "\n\n" +
-                    "يرجى حفظ هذه المعلومات وإعطاؤها للمعلم.");
+            builder.setTitle("user account created successfully!");
+            builder.setMessage("teacher added successfully: " + teacherName + "\n\n" +
+                    "log in info.:\n" +
+                    "username: " + username + "\n" +
+                    "password: " + password + "\n\n" );
 
-            builder.setPositiveButton("حسناً", (dialog, which) -> dialog.dismiss());
-            builder.setNegativeButton("نسخ اسم المستخدم", (dialog, which) -> {
+            builder.setPositiveButton("Done", (dialog, which) -> dialog.dismiss());
+            builder.setNegativeButton("copy user name", (dialog, which) -> {
                 android.content.ClipboardManager clipboard =
                         (android.content.ClipboardManager) getSystemService(android.content.Context.CLIPBOARD_SERVICE);
                 android.content.ClipData clip = android.content.ClipData.newPlainText("Username", username);
