@@ -55,18 +55,17 @@ public class MarksAdapter extends RecyclerView.Adapter<MarksAdapter.MarkViewHold
             examNameTextView.setText(mark.getExamName());
             markTextView.setText(String.valueOf(mark.getMark()));
 
-            // تلوين العلامة حسب الدرجة
             double markValue = mark.getMark();
             if (markValue >= 90) {
-                markTextView.setTextColor(Color.parseColor("#4CAF50")); // أخضر
+                markTextView.setTextColor(Color.parseColor("#4CAF50"));
             } else if (markValue >= 80) {
-                markTextView.setTextColor(Color.parseColor("#FF9800")); // برتقالي
+                markTextView.setTextColor(Color.parseColor("#FF9800"));
             } else if (markValue >= 70) {
-                markTextView.setTextColor(Color.parseColor("#FFC107")); // أصفر
+                markTextView.setTextColor(Color.parseColor("#FFC107"));
             } else if (markValue >= 60) {
-                markTextView.setTextColor(Color.parseColor("#FF5722")); // أحمر فاتح
+                markTextView.setTextColor(Color.parseColor("#FF5722"));
             } else {
-                markTextView.setTextColor(Color.parseColor("#F44336")); // أحمر غامق
+                markTextView.setTextColor(Color.parseColor("#F44336"));
             }
         }
     }

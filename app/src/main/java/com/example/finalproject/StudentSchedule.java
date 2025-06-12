@@ -4,6 +4,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -28,7 +29,6 @@ public class StudentSchedule extends AppCompatActivity {
     private TableLayout tableLayout;
     private final String[] days = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday"};
     private final int maxLectures = 7;
-    private int classID = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,18 +38,21 @@ public class StudentSchedule extends AppCompatActivity {
         tableLayout = findViewById(R.id.tableLayout);
 
         SharedPreferences prefs = getSharedPreferences("MyPrefs", MODE_PRIVATE);
-        classID = prefs.getInt("classID", -1);
+        String className = prefs.getString("className", null);
 
-        if (classID != -1) {
-            fetchClassSchedule(classID);
+        if (className != null) {
+            fetchClassSchedule(className);
         } else {
             initEmptyTable();
             Toast.makeText(this, "No class selected", Toast.LENGTH_LONG).show();
         }
+
+
     }
 
-    private void fetchClassSchedule(int classID) {
-        String url = "http://10.0.2.2/get_student_schedule.php?class_id=" + classID;
+    private void fetchClassSchedule(String className) {
+        String url = "http://10.0.2.2/get_student_schedule.php?class_name=" + className;
+
         RequestQueue queue = Volley.newRequestQueue(this);
 
         JsonObjectRequest req = new JsonObjectRequest(
@@ -61,7 +64,7 @@ public class StudentSchedule extends AppCompatActivity {
                             JSONArray data = response.getJSONArray("data");
                             if (data.length() == 0) {
                                 initEmptyTable();
-                                Toast.makeText(this, "No schedule found for class " + classID,
+                                Toast.makeText(this, "No schedule found for class " + className,
                                         Toast.LENGTH_SHORT).show();
                             } else {
                                 populateTable(data);

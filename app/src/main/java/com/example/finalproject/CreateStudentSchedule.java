@@ -33,7 +33,7 @@ public class CreateStudentSchedule extends AppCompatActivity {
     TableLayout tableLayout;
     Button btnSaveSchedule;
     Spinner classSpinner;
-    Button btnOpenStudentSchedule;
+
     String[] classList = {"Select Class", "Grade 1", "Grade 2", "Grade 3", "Grade 4", "Grade 5", "Grade 6", "Grade 7", "Grade 8", "Grade 9","Grade 10","Grade 11", "Grade 12"};
     String[] days = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday"};
     int lectureCount = 7;
@@ -46,12 +46,7 @@ public class CreateStudentSchedule extends AppCompatActivity {
         tableLayout = findViewById(R.id.tableLayout);
         btnSaveSchedule = findViewById(R.id.btnSaveSchedule);
         classSpinner = findViewById(R.id.classSpinner);
-        btnOpenStudentSchedule = findViewById(R.id.btnOpenStudentSchedule);
 
-        btnOpenStudentSchedule.setOnClickListener(v -> {
-            Intent intent = new Intent(CreateStudentSchedule.this, StudentSchedule.class);
-            startActivity(intent);
-        });
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, classList);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

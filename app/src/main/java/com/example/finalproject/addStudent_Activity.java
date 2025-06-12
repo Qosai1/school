@@ -282,7 +282,7 @@ public class addStudent_Activity extends AppCompatActivity {
                     "Log in info.:\n" +
                     "Username: " + username + "\n" +
                     "password: " + password + "\n\n"
-                    );
+            );
 
             builder.setPositiveButton("Done", (dialog, which) -> dialog.dismiss());
             builder.setNegativeButton("Copy username", (dialog, which) -> {

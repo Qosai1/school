@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:backgroundTint="#7B51C7"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/black"
         android:textStyle="bold"
         android:textSize="16sp"
         android:layout_marginBottom="12dp" />
@@ -24,18 +24,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Save Schedule"
-        android:backgroundTint="#7B51C7"
+        android:backgroundTint="#000"
         android:textColor="#FFFFFF"
         android:textStyle="bold"
         android:textSize="16sp"
         android:visibility="visible"
         android:layout_marginBottom="16dp" />
-    <Button
-        android:id="@+id/btnOpenStudentSchedule"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="View  Schedule"
-        android:layout_marginTop="16dp"/>
 
     <ScrollView
         android:layout_width="match_parent"

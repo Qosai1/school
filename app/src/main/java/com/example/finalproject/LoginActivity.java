@@ -1,4 +1,4 @@
-package com.example.finalproject; // غيّري اسم الباكيج حسب مشروعك
+package com.example.finalproject;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -71,7 +71,6 @@ public class LoginActivity extends AppCompatActivity {
                                 case "student":
                                     Log.d("LOGIN_RESPONSE", response.toString());
 
-                                    // حفظ بيانات الطالب
                                     int studentId = response.getInt("student_id");
                                     String studentName = response.optString("student_name", "");
 
@@ -79,6 +78,7 @@ public class LoginActivity extends AppCompatActivity {
                                     editor.putString("student_name", studentName);
                                     editor.putString("user_type", "student");
                                     editor.putInt("classID", response.getInt("classID"));
+                                    editor.putString("className", response.getString("class_name"));
                                     editor.apply();
 
                                     Log.d("LOGIN", "Student data saved - ID: " + studentId + ", Name: " + studentName);
@@ -91,12 +91,12 @@ public class LoginActivity extends AppCompatActivity {
 
                                     int teacherId = response.getInt("teacher_id");
                                     String teacherName = response.optString("teacher_name", "");
-                                    int subjectId = response.optInt("subject_id", -1); // إضافة subject_id
+                                    int subjectId = response.optInt("subject_id", -1);
 
-                                    // تخزين teacher_id و subject_id في SharedPreferences
+
                                     editor.putInt("teacher_id", teacherId);
                                     editor.putString("teacher_name", teacherName);
-                                    editor.putInt("teacher_subject_id", subjectId); // حفظ subject_id
+                                    editor.putInt("teacher_subject_id", subjectId);
                                     editor.putString("user_type", "teacher");
                                     editor.apply();
 
@@ -119,7 +119,7 @@ public class LoginActivity extends AppCompatActivity {
                                     Toast.makeText(this, "Unknown role: " + role, Toast.LENGTH_SHORT).show();
                             }
 
-                            finish(); // إغلاق صفحة تسجيل الدخول
+                            finish();
                         } else {
                             Toast.makeText(this, "Invalid credentials", Toast.LENGTH_SHORT).show();
                         }

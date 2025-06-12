@@ -45,7 +45,7 @@ public class RegistrarActivity extends AppCompatActivity {
             startActivity(intentt);
         });
         Button logout= findViewById(R.id.logoutButton);
-        createteacher.setOnClickListener(view->{
+        logout.setOnClickListener(view->{
             Intent intentt=new Intent(this, LogoutHelper.class);
             startActivity(intentt);
         });

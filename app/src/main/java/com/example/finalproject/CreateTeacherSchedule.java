@@ -1,12 +1,15 @@
 package com.example.finalproject;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -18,47 +21,74 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class CreateTeacherSchedule extends AppCompatActivity {
-
     Spinner teacherSpinner;
     TableLayout tableLayout;
-
+    Button btnSaveSchedule, btnViewSchedule;
     String[] days = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday"};
     int maxLectures = 7;
     ArrayList<Integer> teacherIds = new ArrayList<>();
     ArrayList<String> teacherNames = new ArrayList<>();
     int selectedTeacherId = -1;
+    EditText[][] cellRefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_schedule);
+        setContentView(R.layout.create_teacher_schedule);
+
+        teacherSpinner = findViewById(R.id.teacherSpinner);
         tableLayout = findViewById(R.id.tableLayout);
+        btnSaveSchedule = findViewById(R.id.btnSaveSchedule);
+        // btnViewSchedule = findViewById(R.id.btnViewTeacherSchedule);
+
         loadTeachers();
         setupSpinnerListener();
-        initEmptyTable();
+        buildTable();
+
+        btnSaveSchedule.setOnClickListener(v -> {
+            try {
+                saveSchedule();
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+        });
+
+//        btnViewSchedule.setOnClickListener(v -> {
+//            if (selectedTeacherId == -1) {
+//                Toast.makeText(this, "Please select a teacher first", Toast.LENGTH_SHORT).show();
+//            } else {
+//                Intent intent = new Intent(this, TeacherScheduleActivity.class);
+//                intent.putExtra("teacher_id", selectedTeacherId);
+//                startActivity(intent);
+//            }
+//        });
     }
+
     private void loadTeachers() {
         String url = "http://10.0.2.2/get_teachers.php";
         RequestQueue queue = Volley.newRequestQueue(this);
-        JsonObjectRequest req = new JsonObjectRequest(
-                Request.Method.GET, url, null,
+
+        JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, url, null,
                 response -> {
                     try {
                         if ("success".equals(response.getString("status"))) {
                             JSONArray data = response.getJSONArray("data");
                             teacherNames.clear();
                             teacherIds.clear();
-
                             teacherNames.add("Select Teacher");
 
                             for (int i = 0; i < data.length(); i++) {
@@ -72,149 +102,171 @@ public class CreateTeacherSchedule extends AppCompatActivity {
                                     android.R.layout.simple_spinner_item,
                                     teacherNames
                             );
-                            adapter.setDropDownViewResource(
-                                    android.R.layout.simple_spinner_dropdown_item
-                            );
+                            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                             teacherSpinner.setAdapter(adapter);
-
-                        } else {
-                            Toast.makeText(this,
-                                    "Failed to load teachers",
-                                    Toast.LENGTH_SHORT).show();
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
-                        Toast.makeText(this,
-                                "Parsing error",
-                                Toast.LENGTH_SHORT).show();
-                    }
-                },
-                error -> {
-                    error.printStackTrace();
-                    Toast.makeText(this,
-                            "Server connection failed",
-                            Toast.LENGTH_SHORT).show();
-                }
-        );
-
-        queue.add(req);
-    }
-    private void setupSpinnerListener() {
-        teacherSpinner.setOnItemSelectedListener(
-                new AdapterView.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(AdapterView<?> parent,
-                                               View view,
-                                               int position,
-                                               long id) {
-                        if (position == 0) {
-                            selectedTeacherId = -1;
-                            initEmptyTable();
-                        } else {
-                            selectedTeacherId = teacherIds.get(position - 1);
-                            fetchTeacherSchedule(selectedTeacherId);
-                        }
-                    }
-                    @Override public void onNothingSelected(AdapterView<?> parent) {}
-                });
-    }
-    private void fetchTeacherSchedule(int teacherId) {
-        String url = "http://10.0.2.2/get_teacher_schedule.php"
-                + "?teacher_id=" + teacherId;
-        RequestQueue queue = Volley.newRequestQueue(this);
-
-        JsonObjectRequest req = new JsonObjectRequest(
-                Request.Method.GET, url, null,
-                response -> {
-                    try {
-                        if ("success".equals(response.getString("status"))) {
-                            JSONArray data = response.getJSONArray("data");
-                            if (data.length() == 0) {
-                                initEmptyTable();
-                                Toast.makeText(this, "No schedule found", Toast.LENGTH_SHORT).show();
-                            } else {
-                                populateTable(data);
-                            }
-                        } else {
-                            initEmptyTable();
-                            Toast.makeText(this, "Failed to fetch schedule", Toast.LENGTH_SHORT).show();
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                        initEmptyTable();
                         Toast.makeText(this, "Parsing error", Toast.LENGTH_SHORT).show();
                     }
                 },
                 error -> {
-                    initEmptyTable();
-                    Toast.makeText(this, "Connection failed", Toast.LENGTH_SHORT).show();
-                }
-        );
+                    error.printStackTrace();
+                    Toast.makeText(this, "Server connection failed", Toast.LENGTH_SHORT).show();
+                });
+
         queue.add(req);
     }
 
-    private void initEmptyTable() {
-        tableLayout.removeAllViews();
-        createTableHeader();
-        for (String day : days) {
-            tableLayout.addView(createDayRow(day, new HashMap<>()));
-        }
-    }
-
-    private void populateTable(JSONArray data) throws JSONException {
-        HashMap<String, HashMap<Integer, String>> map = new HashMap<>();
-        for (String d : days) map.put(d, new HashMap<>());
-
-        for (int i = 0; i < data.length(); i++) {
-            JSONObject obj = data.getJSONObject(i);
-            String day  = obj.getString("day");
-            int lec     = obj.getInt("lecture_number");
-            String cls  = obj.getString("class_name");
-            if (map.containsKey(day)) {
-                map.get(day).put(lec, cls);
+    private void setupSpinnerListener() {
+        teacherSpinner.setOnItemSelectedListener(new android.widget.AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(android.widget.AdapterView<?> parent, View view, int position, long id) {
+                if (position == 0) {
+                    selectedTeacherId = -1;
+                    buildTable();
+                } else {
+                    selectedTeacherId = teacherIds.get(position - 1);
+                }
             }
-        }
 
-        tableLayout.removeAllViews();
-        createTableHeader();
-        for (String day : days) {
-            tableLayout.addView(createDayRow(day, map.get(day)));
-        }
+            @Override
+            public void onNothingSelected(android.widget.AdapterView<?> parent) {}
+        });
     }
-    private void createTableHeader() {
+
+    private void buildTable() {
+        tableLayout.removeAllViews();
+        cellRefs = new EditText[days.length][maxLectures];
+
         TableRow header = new TableRow(this);
         header.addView(createHeaderCell("Day \\ Lecture"));
         for (int i = 1; i <= maxLectures; i++) {
             header.addView(createHeaderCell("Lecture " + i));
         }
         tableLayout.addView(header);
-    }
-    private TableRow createDayRow(String day,
-                                  HashMap<Integer, String> lectures) {
-        TableRow row = new TableRow(this);
-        TextView tv = new TextView(this);
-        tv.setText(day);
-        tv.setPadding(12,12,12,12);
-        tv.setTypeface(null, Typeface.BOLD);
-        tv.setBackgroundColor(Color.LTGRAY);
-        tv.setGravity(Gravity.CENTER);
-        row.addView(tv);
 
-        for (int i = 1; i <= maxLectures; i++) {
-            TextView cell = new TextView(this);
-            cell.setText(lectures.getOrDefault(i, ""));
-            cell.setPadding(12,12,12,12);
-            cell.setGravity(Gravity.CENTER);
-            cell.setBackgroundResource(android.R.drawable.editbox_background);
-            row.addView(cell);
+        for (int i = 0; i < days.length; i++) {
+            TableRow row = new TableRow(this);
+            TextView dayCell = new TextView(this);
+            dayCell.setText(days[i]);
+            dayCell.setPadding(12, 12, 12, 12);
+            dayCell.setBackgroundColor(Color.LTGRAY);
+            dayCell.setTypeface(null, Typeface.BOLD);
+            dayCell.setGravity(Gravity.CENTER);
+            row.addView(dayCell);
+
+            for (int j = 0; j < maxLectures; j++) {
+                EditText cell = new EditText(this);
+                cell.setHint("Class");
+                cell.setGravity(Gravity.CENTER);
+                cell.setBackgroundResource(android.R.drawable.editbox_background);
+                row.addView(cell);
+                cellRefs[i][j] = cell;
+            }
+            tableLayout.addView(row);
         }
-        return row;
     }
+
+    private void saveSchedule() throws UnsupportedEncodingException {
+        if (selectedTeacherId == -1) {
+            Toast.makeText(this, "Select a teacher first", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        JSONArray scheduleArray = new JSONArray();
+        for (int i = 0; i < days.length; i++) {
+            for (int j = 0; j < maxLectures; j++) {
+                String className = cellRefs[i][j].getText().toString().trim();
+                if (!className.isEmpty()) {
+                    JSONObject entry = new JSONObject();
+                    try {
+                        entry.put("teacher_id", selectedTeacherId);
+                        entry.put("day", days[i]);
+                        entry.put("lecture_number", j + 1);
+                        entry.put("class_name", className);
+                        scheduleArray.put(entry);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+
+        String url = "http://10.0.2.2/insert_teacher_schedule.php";
+        RequestQueue queue = Volley.newRequestQueue(this);
+
+        StringRequest req = new StringRequest(Request.Method.POST, url,
+                response -> {
+                    Toast.makeText(this, "Schedule saved successfully", Toast.LENGTH_SHORT).show();
+                    fetchTeacherSchedule(selectedTeacherId); // show after save
+                },
+                error -> {
+                    error.printStackTrace();
+                    Toast.makeText(this, "Failed to save", Toast.LENGTH_SHORT).show();
+                }) {
+            @Override
+            public byte[] getBody() {
+                return scheduleArray.toString().getBytes(StandardCharsets.UTF_8);
+            }
+
+            @Override
+            public String getBodyContentType() {
+                return "application/json; charset=utf-8";
+            }
+        };
+
+        queue.add(req);
+    }
+
+    private void fetchTeacherSchedule(int teacherId) {
+        String url = "http://10.0.2.2/get_teacher_schedule.php?teacher_id=" + teacherId;
+        RequestQueue queue = Volley.newRequestQueue(this);
+
+        JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, url, null,
+                response -> {
+                    try {
+                        if ("success".equals(response.getString("status"))) {
+                            JSONArray data = response.getJSONArray("data");
+                            displaySchedule(data);
+                        } else {
+                            Toast.makeText(this, "No schedule found", Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                },
+                error -> {
+                    error.printStackTrace();
+                    Toast.makeText(this, "Error loading schedule", Toast.LENGTH_SHORT).show();
+                });
+
+        queue.add(req);
+    }
+
+    private void displaySchedule(JSONArray data) throws JSONException {
+        buildTable();
+
+        for (int i = 0; i < data.length(); i++) {
+            JSONObject obj = data.getJSONObject(i);
+            String day = obj.getString("day");
+            int lecture = obj.getInt("lecture_number");
+            String className = obj.getString("class_name");
+
+            for (int d = 0; d < days.length; d++) {
+                if (days[d].equals(day)) {
+                    cellRefs[d][lecture - 1].setText(className);
+                    break;
+                }
+            }
+        }
+    }
+
     private TextView createHeaderCell(String text) {
         TextView tv = new TextView(this);
         tv.setText(text);
-        tv.setPadding(12,12,12,12);
-        tv.setTypeface(null,Typeface.BOLD);
+        tv.setPadding(12, 12, 12, 12);
+        tv.setTypeface(null, Typeface.BOLD);
         tv.setBackgroundColor(Color.DKGRAY);
         tv.setTextColor(Color.WHITE);
         tv.setGravity(Gravity.CENTER);
