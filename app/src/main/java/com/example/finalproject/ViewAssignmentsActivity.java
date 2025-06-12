@@ -70,7 +70,7 @@ public class ViewAssignmentsActivity extends AppCompatActivity {
     }
 
     private void fetchAssignments(int classId) {
-        String url = "http://10.0.2.2/get_student_assignments.php";
+        String url = "http://10.0.2.2/API/get_student_assignments.php";
 
         StringRequest request = new StringRequest(Request.Method.POST, url,
                 response -> {

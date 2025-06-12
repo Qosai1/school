@@ -24,7 +24,6 @@ public class StudentActivity extends AppCompatActivity {
         });
         btnShowAssignments = findViewById(R.id.btnShowAssignments);
 
-        // اقرأ class_id من SharedPreferences
         SharedPreferences prefs = getSharedPreferences("MyPrefs", MODE_PRIVATE);
         int studentClassId = prefs.getInt("classID", -1); // -1 إذا ما لقي إشي
 

@@ -52,20 +52,17 @@ public class AssignmentSubmissionsActivity extends AppCompatActivity {
     }
 
     private void loadSubmissions() {
-        String url = "http://10.0.2.2/get_assignment_submissions.php?assignment_id=" + assignmentId;
+        String url = "http://10.0.2.2/API/get_assignment_submissions.php?assignment_id=" + assignmentId;
         Log.d("SUBMISSIONS_URL", "Requesting URL: " + url);
 
-        // استخدام StringRequest بدلاً من JsonArrayRequest للتشخيص
         StringRequest request = new StringRequest(Request.Method.GET, url,
                 response -> {
                     Log.d("SUBMISSIONS_RAW_RESPONSE", "Raw Response: " + response);
 
                     try {
-                        // محاولة معرفة نوع الاستجابة
-                        response = response.trim(); // إزالة المسافات الزائدة
+                        response = response.trim();
 
                         if (response.startsWith("{")) {
-                            // إذا كانت الاستجابة JSON Object (قد تحتوي على خطأ)
                             JSONObject errorObj = new JSONObject(response);
                             if (errorObj.has("error")) {
                                 String errorMsg = errorObj.getString("error");
@@ -75,13 +72,10 @@ public class AssignmentSubmissionsActivity extends AppCompatActivity {
                             }
                         }
 
-                        // محاولة معالجة الاستجابة كـ JSON Array
                         JSONArray jsonArray;
                         if (response.startsWith("[")) {
-                            // الاستجابة عبارة عن JSON Array
                             jsonArray = new JSONArray(response);
                         } else {
-                            // الاستجابة قد تكون JSON Object يحتوي على array
                             JSONObject responseObj = new JSONObject(response);
                             if (responseObj.has("data")) {
                                 jsonArray = responseObj.getJSONArray("data");
@@ -102,7 +96,6 @@ public class AssignmentSubmissionsActivity extends AppCompatActivity {
 
                             StudentSubmission s = new StudentSubmission();
 
-                            // التحقق من وجود المفاتيح المطلوبة
                             if (obj.has("student_id")) {
                                 s.student_id = obj.getInt("student_id");
                             } else {
@@ -142,7 +135,6 @@ public class AssignmentSubmissionsActivity extends AppCompatActivity {
                         Log.e("JSON_PARSE_ERROR", "JSON parsing failed: " + e.getMessage());
                         Log.e("JSON_PARSE_ERROR", "Response that failed to parse: " + response);
 
-                        // محاولة فهم سبب فشل التحليل
                         if (response.isEmpty()) {
                             Toast.makeText(this, "Server returned empty response", Toast.LENGTH_LONG).show();
                         } else if (!response.startsWith("[") && !response.startsWith("{")) {

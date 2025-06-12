@@ -17,12 +17,10 @@ public class StudentSubmission {
         this.submitted_at = submitted_at;
     }
 
-    // Helper method to check if has attachment
     public boolean hasAttachment() {
         return attachment != null && !attachment.trim().isEmpty() && !attachment.equals("null");
     }
 
-    // Get file name from path
     public String getFileName() {
         if (!hasAttachment()) return "No file";
 

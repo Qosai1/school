@@ -37,7 +37,7 @@ import java.util.HashMap;
 public class CreateTeacherSchedule extends AppCompatActivity {
     Spinner teacherSpinner;
     TableLayout tableLayout;
-    Button btnSaveSchedule, btnViewSchedule;
+    Button btnSaveSchedule;
     String[] days = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday"};
     int maxLectures = 7;
     ArrayList<Integer> teacherIds = new ArrayList<>();
@@ -67,19 +67,11 @@ public class CreateTeacherSchedule extends AppCompatActivity {
             }
         });
 
-//        btnViewSchedule.setOnClickListener(v -> {
-//            if (selectedTeacherId == -1) {
-//                Toast.makeText(this, "Please select a teacher first", Toast.LENGTH_SHORT).show();
-//            } else {
-//                Intent intent = new Intent(this, TeacherScheduleActivity.class);
-//                intent.putExtra("teacher_id", selectedTeacherId);
-//                startActivity(intent);
-//            }
-//        });
+
     }
 
     private void loadTeachers() {
-        String url = "http://10.0.2.2/get_teachers.php";
+        String url = "http://10.0.2.2/API/get_teachers.php";
         RequestQueue queue = Volley.newRequestQueue(this);
 
         JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, url, null,
@@ -193,7 +185,7 @@ public class CreateTeacherSchedule extends AppCompatActivity {
             }
         }
 
-        String url = "http://10.0.2.2/insert_teacher_schedule.php";
+        String url = "http://10.0.2.2/API/insert_teacher_schedule.php";
         RequestQueue queue = Volley.newRequestQueue(this);
 
         StringRequest req = new StringRequest(Request.Method.POST, url,
@@ -220,7 +212,7 @@ public class CreateTeacherSchedule extends AppCompatActivity {
     }
 
     private void fetchTeacherSchedule(int teacherId) {
-        String url = "http://10.0.2.2/get_teacher_schedule.php?teacher_id=" + teacherId;
+        String url = "http://10.0.2.2/API/get_teacher_schedule.php?teacher_id=" + teacherId;
         RequestQueue queue = Volley.newRequestQueue(this);
 
         JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, url, null,

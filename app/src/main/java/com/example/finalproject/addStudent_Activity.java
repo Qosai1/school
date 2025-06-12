@@ -19,7 +19,7 @@ public class addStudent_Activity extends AppCompatActivity {
     EditText etName, etEmail, etPhone, etBirthDate, etAddress, classid;
     Spinner spinnerGender;
     Button btnAddStudent;
-    String url = "http://10.0.2.2/add_studnt.php";
+    String url = "http://10.0.2.2/API/add_studnt.php";
     private String selectedDate = "";
 
     @Override
@@ -27,7 +27,6 @@ public class addStudent_Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_studnet_activity);
 
-        // ربط الحقول
         etName = findViewById(R.id.etName);
         etEmail = findViewById(R.id.etEmail);
         etPhone = findViewById(R.id.etPhone);

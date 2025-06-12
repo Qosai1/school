@@ -26,7 +26,7 @@ public class MarksActivity extends AppCompatActivity {
     private RecyclerView marksRecyclerView;
     private MarksAdapter marksAdapter;
     private List<Mark> marksList;
-    private String marksUrl = "http://10.0.2.2/get_student_marks.php";
+    private String marksUrl = "http://10.0.2.2/API/get_student_marks.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

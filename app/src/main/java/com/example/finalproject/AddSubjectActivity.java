@@ -22,8 +22,8 @@ public class AddSubjectActivity extends AppCompatActivity {
     private EditText subjectIdEditText, subjectNameEditText;
     private Button addSubjectButton;
 
-    // Replace with your actual server IP address
-    private static final String URL = "http://10.0.2.2/add_subject.php";
+
+    private static final String URL = "http://10.0.2.2/API/add_subject.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

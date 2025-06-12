@@ -152,7 +152,7 @@ public class ViewAssignmentsAdapter extends RecyclerView.Adapter<ViewAssignments
     }
 
     private void openFile(String fileName) {
-        String fileUrl = "http://10.0.2.2/file_handler.php?file=" + fileName;
+        String fileUrl = "http://10.0.2.2/API/file_handler.php?file=" + fileName;
 
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(Uri.parse(fileUrl));
@@ -166,7 +166,7 @@ public class ViewAssignmentsAdapter extends RecyclerView.Adapter<ViewAssignments
     }
 
     private void viewFile(String fileName) {
-        String fileUrl = "http://10.0.2.2/file_handler.php?file=" + fileName;
+        String fileUrl = "http://10.0.2.2/API/file_handler.php?file=" + fileName;
 
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(Uri.parse(fileUrl));
@@ -179,7 +179,7 @@ public class ViewAssignmentsAdapter extends RecyclerView.Adapter<ViewAssignments
     }
 
     private void downloadFile(String fileName) {
-        String fileUrl = "http://10.0.2.2/file_handler.php?file=" + fileName;
+        String fileUrl = "http://10.0.2.2/API/file_handler.php?file=" + fileName;
 
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(Uri.parse(fileUrl));
@@ -223,12 +223,10 @@ public class ViewAssignmentsAdapter extends RecyclerView.Adapter<ViewAssignments
             try {
                 String fileName = getFileName(fileUri);
 
-                // عرض معلومات الملف المختار
                 currentHolder.selectedFileName.setText("الملف المختار: " + fileName);
                 currentHolder.fileSelectionLayout.setVisibility(View.VISIBLE);
                 currentHolder.btnSubmit.setText("إرسال التسليم");
 
-                // حفظ Uri للاستخدام لاحقاً
                 currentHolder.selectedFileUri = fileUri;
 
             } catch (Exception e) {
@@ -265,10 +263,8 @@ public class ViewAssignmentsAdapter extends RecyclerView.Adapter<ViewAssignments
     }
 
     private void submitAssignmentWithFile(int assignmentId, Uri fileUri) throws IOException {
-        // الحصول على اسم الملف
         String fileName = getFileName(fileUri);
 
-        // قراءة محتوى الملف
         InputStream inputStream = activity.getContentResolver().openInputStream(fileUri);
         if (inputStream == null) {
             throw new IOException("لا يمكن قراءة الملف");
@@ -280,7 +276,7 @@ public class ViewAssignmentsAdapter extends RecyclerView.Adapter<ViewAssignments
         // إنشاء multipart request محسن
         MultipartRequest multipartRequest = new MultipartRequest(
                 Request.Method.POST,
-                "http://10.0.2.2/submit_assignment.php",
+                "http://10.0.2.2/API/submit_assignment.php",
                 response -> {
                     activity.runOnUiThread(() -> {
                         try {
@@ -338,7 +334,6 @@ public class ViewAssignmentsAdapter extends RecyclerView.Adapter<ViewAssignments
                                     break;
                             }
 
-                            // طباعة تفاصيل الخطأ للتشخيص
                             try {
                                 String responseBody = new String(volleyError.networkResponse.data, "UTF-8");
                                 System.out.println("Status Code: " + statusCode);
@@ -349,15 +344,12 @@ public class ViewAssignmentsAdapter extends RecyclerView.Adapter<ViewAssignments
                                 e.printStackTrace();
                             }
                         } else {
-                            // لا يوجد network response - غالباً مشكلة اتصال
                             System.out.println("No network response - connection issue");
                             System.out.println("Error message: " + volleyError.getMessage());
                         }
 
-                        // عرض الرسالة للمستخدم
                         Toast.makeText(activity, errorMessage, Toast.LENGTH_LONG).show();
 
-                        // إعادة تعيين التحديد
                         if (currentHolder != null) {
                             resetFileSelection(currentHolder);
                         }

@@ -112,7 +112,7 @@ public class CreateStudentSchedule extends AppCompatActivity {
             return;
         }
 
-        String checkUrl = "http://10.0.2.2/check_schedule.php?class_name=" + selectedClass;
+        String checkUrl = "http://10.0.2.2/API/check_schedule.php?class_name=" + selectedClass;
         RequestQueue queue = Volley.newRequestQueue(this);
 
         StringRequest checkRequest = new StringRequest(
@@ -172,7 +172,7 @@ public class CreateStudentSchedule extends AppCompatActivity {
             }
         }
 
-        String url = "http://10.0.2.2/insert_schedule.php";
+        String url = "http://10.0.2.2/API/insert_schedule.php";
 
         StringRequest request = new StringRequest(
                 Request.Method.POST,

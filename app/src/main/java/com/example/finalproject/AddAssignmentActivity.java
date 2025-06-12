@@ -53,7 +53,7 @@ public class AddAssignmentActivity extends AppCompatActivity {
     List<String> classList = new ArrayList<>();
     Map<String, Integer> classNameToIdMap = new HashMap<>();
 
-    String url = "http://10.0.2.2/add_assignment.php";
+    String url = "http://10.0.2.2/API/add_assignment.php";
     private static final String TAG = "AddAssignment";
     private static final int PERMISSION_REQUEST_CODE = 1;
 
@@ -93,7 +93,6 @@ public class AddAssignmentActivity extends AppCompatActivity {
                 return;
             }
 
-            // إضافة عنصر افتراضي للـ spinner لتجنب الخطأ
             classList.add("جاري التحميل...");
             updateSpinner();
 
@@ -155,7 +154,7 @@ public class AddAssignmentActivity extends AppCompatActivity {
 
     private void selectFile() {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.setType("*/*"); // تم إصلاح هذا السطر
+        intent.setType("*/*");
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         filePickerLauncher.launch(Intent.createChooser(intent, "اختر ملف"));
     }
@@ -252,7 +251,7 @@ public class AddAssignmentActivity extends AppCompatActivity {
     }
 
     private void fetchTeacherClasses(int teacherId) {
-        String classUrl = "http://10.0.2.2/get_teacher_classes.php";
+        String classUrl = "http://10.0.2.2/API/get_teacher_classes.php";
 
         StringRequest request = new StringRequest(Request.Method.POST, classUrl,
                 response -> {

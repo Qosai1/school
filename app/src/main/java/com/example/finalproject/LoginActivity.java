@@ -23,7 +23,7 @@ public class LoginActivity extends AppCompatActivity {
     EditText usernameEditText, passwordEditText;
     Button loginButton;
 
-    String loginUrl = "http://10.0.2.2/login.php";
+    String loginUrl = "http://10.0.2.2/API/login.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

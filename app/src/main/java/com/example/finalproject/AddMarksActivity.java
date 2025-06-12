@@ -81,7 +81,7 @@ public class AddMarksActivity extends AppCompatActivity {
     }
 
     private void fetchTeacherClasses(int teacherId) {
-        String url = "http://10.0.2.2/get_teacher_classes.php";
+        String url = "http://10.0.2.2/API/get_teacher_classes.php";
         StringRequest req = new StringRequest(Request.Method.POST, url,
                 response -> {
                     try {
@@ -126,7 +126,7 @@ public class AddMarksActivity extends AppCompatActivity {
     }
 
     private void fetchStudentsByClass(int classId) {
-        String url = "http://10.0.2.2/get_students_by_class.php";
+        String url = "http://10.0.2.2/API/get_students_by_class.php";
         StringRequest req = new StringRequest(Request.Method.POST, url,
                 response -> {
                     try {
@@ -184,7 +184,7 @@ public class AddMarksActivity extends AppCompatActivity {
     }
 
     private void submitMarksToServer(String examName) {
-        String url = "http://10.0.2.2/add_marks.php";
+        String url = "http://10.0.2.2/API/add_marks.php";
 
         try {
             JSONArray marksArray = new JSONArray();

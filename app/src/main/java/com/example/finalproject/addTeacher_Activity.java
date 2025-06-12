@@ -18,8 +18,8 @@ public class addTeacher_Activity extends AppCompatActivity {
     EditText etName, etEmail, etPhone, etBirthDate, etAddress, etDepartment, etBio;
     Spinner spinnerGender, spinnerSubject;
     Button btnAddTeacher;
-    String url = "http://10.0.2.2/add_teacher.php";
-    String subjectsUrl = "http://10.0.2.2/get_subjects.php";
+    String url = "http://10.0.2.2/API/add_teacher.php";
+    String subjectsUrl = "http://10.0.2.2/API/get_subjects.php";
     private String selectedDate = "";
 
     private List<String> subjectNames = new ArrayList<>();

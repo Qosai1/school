@@ -32,7 +32,6 @@ public class ShowSubmissionsActivity extends AppCompatActivity {
         adapter = new AssignmentAdapter(this, assignmentList);
         recyclerView.setAdapter(adapter);
 
-        // Fixed: Use same SharedPreferences name as LoginActivity
         SharedPreferences prefs = getSharedPreferences("MyPrefs", MODE_PRIVATE);
         teacher_id = prefs.getInt("teacher_id", -1);
 
@@ -48,7 +47,7 @@ public class ShowSubmissionsActivity extends AppCompatActivity {
     }
 
     private void loadAssignments() {
-        String url = "http://10.0.2.2/get_teacher_assignments.php?teacher_id=" + teacher_id;
+        String url = "http://10.0.2.2/API/get_teacher_assignments.php?teacher_id=" + teacher_id;
 
         Log.d("REQUEST_URL", url);
 
@@ -63,7 +62,6 @@ public class ShowSubmissionsActivity extends AppCompatActivity {
                             assignment.title = obj.getString("title");
                             assignment.description = obj.getString("description");
 
-                            // Fixed date parsing
                             try {
                                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
                                 assignment.due_date = dateFormat.parse(obj.getString("due_date"));

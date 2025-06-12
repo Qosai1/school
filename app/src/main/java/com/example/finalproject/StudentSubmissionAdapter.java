@@ -61,13 +61,11 @@ public class StudentSubmissionAdapter extends RecyclerView.Adapter<StudentSubmis
         return submissions != null ? submissions.size() : 0;
     }
 
-    // استخراج اسم الملف من المسار
     private String getFileNameFromPath(String filePath) {
         if (filePath == null || filePath.isEmpty()) {
             return "Unknown File";
         }
 
-        // إزالة المسار والاحتفاظ باسم الملف فقط
         String fileName = filePath;
         if (fileName.contains("/")) {
             fileName = fileName.substring(fileName.lastIndexOf("/") + 1);
@@ -79,7 +77,6 @@ public class StudentSubmissionAdapter extends RecyclerView.Adapter<StudentSubmis
         return fileName.isEmpty() ? "Unknown File" : fileName;
     }
 
-    // تحديد أيقونة الملف بناء على النوع
     private void setFileIcon(ImageView imageView, String fileName) {
         String extension = getFileExtension(fileName).toLowerCase();
 
@@ -106,7 +103,6 @@ public class StudentSubmissionAdapter extends RecyclerView.Adapter<StudentSubmis
         }
     }
 
-    // الحصول على امتداد الملف
     private String getFileExtension(String fileName) {
         if (fileName == null || !fileName.contains(".")) {
             return "";
@@ -114,9 +110,8 @@ public class StudentSubmissionAdapter extends RecyclerView.Adapter<StudentSubmis
         return fileName.substring(fileName.lastIndexOf(".") + 1);
     }
 
-    // فتح الملف (محاولة فتحه بالتطبيقات المناسبة)
     private void openFile(String fileName) {
-        String fileUrl = "http://10.0.2.2/file_handler.php?file=" + fileName;
+        String fileUrl = "http://10.0.2.2/API/file_handler.php?file=" + fileName;
 
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(Uri.parse(fileUrl));
@@ -129,9 +124,8 @@ public class StudentSubmissionAdapter extends RecyclerView.Adapter<StudentSubmis
         }
     }
 
-    // عرض الملف في المتصفح
     private void viewFile(String fileName) {
-        String fileUrl = "http://10.0.2.2/file_handler.php?file=" + fileName;
+        String fileUrl = "http://10.0.2.2/API/file_handler.php?file=" + fileName;
 
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(Uri.parse(fileUrl));
@@ -143,7 +137,6 @@ public class StudentSubmissionAdapter extends RecyclerView.Adapter<StudentSubmis
         }
     }
 
-    // تحميل الملف
     private void downloadFile(String fileName) {
         String fileUrl = "http://10.0.2.2/file_handler.php?file=" + fileName;
 

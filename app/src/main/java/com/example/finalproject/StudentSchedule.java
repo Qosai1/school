@@ -51,7 +51,7 @@ public class StudentSchedule extends AppCompatActivity {
     }
 
     private void fetchClassSchedule(String className) {
-        String url = "http://10.0.2.2/get_student_schedule.php?class_name=" + className;
+        String url = "http://10.0.2.2/API/get_student_schedule.php?class_name=" + className;
 
         RequestQueue queue = Volley.newRequestQueue(this);
 

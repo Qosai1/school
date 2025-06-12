@@ -50,7 +50,7 @@ public class TeacherScheduleActivity extends AppCompatActivity {
     }
 
     private void fetchTeacherSchedule(int teacherId) {
-        String url = "http://10.0.2.2/get_teacher_schedule.php?teacher_id=" + teacherId;
+        String url = "http://10.0.2.2/API/get_teacher_schedule.php?teacher_id=" + teacherId;
         RequestQueue queue = Volley.newRequestQueue(this);
 
         JsonObjectRequest req = new JsonObjectRequest(

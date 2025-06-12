@@ -19,7 +19,6 @@ public class Mark {
         this.mark = mark;
     }
 
-    // Getters and Setters
     public int getMarkId() {
         return markId;
     }
