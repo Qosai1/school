@@ -438,7 +438,7 @@ public class ViewAssignmentsAdapter extends RecyclerView.Adapter<ViewAssignments
             dueDate = itemView.findViewById(R.id.assignmentDueDate);
             btnSubmit = itemView.findViewById(R.id.btnSubmitAssignment);
 
-            // العناصر الجديدة للملف المختار (تسليم الطالب)
+
             selectedFileName = itemView.findViewById(R.id.selectedFileName);
             btnCancelFile = itemView.findViewById(R.id.btnCancelFile);
             fileSelectionLayout = itemView.findViewById(R.id.fileSelectionLayout);
